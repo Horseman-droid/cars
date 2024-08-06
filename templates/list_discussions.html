@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Discussions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        header a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        li img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        li p {
+            margin: 0;
+        }
+
+        .hashtags {
+            font-style: italic;
+            color: #555;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #555;
+        }
+
+        .discussion-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('index') }}">Home</a>
+    </header>
+    <div class="container">
+        <h1>Discussions</h1>
+        <ul>
+            {% for discussion in discussions %}
+            <li>
+                <p>{{ discussion.text }}</p>
+                {% if discussion.image %}
+                <img src="{{ url_for('static', filename='uploads/' + discussion.image) }}" alt="Image">
+                {% endif %}
+                <p class="hashtags">Hashtags: {{ discussion.hashtags }}</p>
+                <div class="discussion-actions">
+                    <a href="{{ url_for('update_discussion', id=discussion.id) }}">Edit</a>
+                    <a href="{{ url_for('delete_discussion', id=discussion.id) }}" onclick="return confirm('Are you sure?')">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('index') }}" class="back-link">Back to Discussions</a>
+    </div>
+</body>
+</html>
